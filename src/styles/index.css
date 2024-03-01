@@ -1,12 +1,22 @@
+/* * {
+    border: 1px solid red;
+} */
 
-/* 
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
-
-*/
+p {
+    margin: 0;   
+}
+.taskDiv {
+    margin: 5px;
+}
+.taskDiv:hover {
+    background-color: rgb(234, 234, 234);
+}
+.entireToDoList {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    margin: 0 200px;
+    box-shadow: 0px 15px 0 -7.5px #ffffff,
+            0px 15px 0 -7px rgba(0,0,0,0.3),
+            0px 25px 0 -11px #ffffff,
+            0px 25px 0 -10.5px rgba(0,0,0,0.3);
+}
