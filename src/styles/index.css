@@ -20,3 +20,6 @@ p {
             0px 25px 0 -11px #ffffff,
             0px 25px 0 -10.5px rgba(0,0,0,0.3);
 }
+.deleteIcon:hover {
+    color: red;
+}
