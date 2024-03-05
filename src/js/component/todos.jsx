@@ -41,6 +41,22 @@ const ToDos = () => {
     });
     setNewerTasks(newUpdated);
     handleFetch(newUpdated)}
+
+    const lengthFunc = () => {
+        return newerTasks.filter(elm => !elm.done).length;
+    }
+
+// Easier and more compact way of doing this would be the filter() way shown right above.
+//    const countTasks = () => {
+//        var count = 0
+//        for(let i = 0; i < newerTasks.length; i++){
+//            if (newerTasks[i].done == false) {
+//               count += 1
+//           }
+//        }
+//        return count;
+//    }
+//    var counter = countTasks()
     return (
         <div className="mt-5 entireToDoList row justify-content-center align-items-center">
             <div className="taskDiv align-items-center">
@@ -62,6 +78,7 @@ const ToDos = () => {
                     </div>
                 )
             })}
+            <footer className="d-flex align-items-center footerText">{lengthFunc()} items left.</footer>
         </div>
     )
 }

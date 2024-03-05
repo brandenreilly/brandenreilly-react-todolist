@@ -3,8 +3,8 @@ import ToDos from "./todos"
 const Home = () => {
 	
 	return (
-		<div className="text-center">
-			<h1 className="mt-3">todos</h1>
+		<div className="text-center pageDIV">
+			<h1 className="mt-3 todosText">to-do List</h1>
 			<ToDos />
 		</div>
 	);
