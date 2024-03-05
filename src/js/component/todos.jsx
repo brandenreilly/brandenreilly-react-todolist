@@ -1,41 +1,63 @@
 import React, {useRef, useEffect, useState} from "react";
 
 const ToDos = () => {
-    const [newTasks,setNewTasks] = useState([])
+    const [newerTasks,setNewerTasks] = useState([])
     const [userInput,setUserInput] = useState("")
-    const [updatedTasks, setUpdatedTasks] = useState([])
-    const addTasks = (newTask) => {
-        var updatedTasks = [...newTasks]
-        updatedTasks.push(newTask)
-        setNewTasks(updatedTasks)
+
+    useEffect(()=>{
+        fetch("https://playground.4geeks.com/apis/fake/todos/user/breilly")
+        .then(resp => resp.json())
+        .then(data => setNewerTasks(data))
+        .then(() => {console.log(newerTasks)})
+    }, []);
+    const handleFetch = (body) => {
+        fetch("https://playground.4geeks.com/apis/fake/todos/user/breilly",{
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body)
+        })
+    }
+    const handleClick = () => {
+        let newArray = [...newerTasks, { label: userInput, done: false }];
+        setNewerTasks(newArray)
+        handleFetch(newArray)
+    }
+    const checkTrue = (arrayItem , ind) => {
+        let checkTrueArray = newerTasks.map((item , index)=>{
+            if (arrayItem.id == item.id){
+                return { label: item.label, id: item.id, done: !item.done }
+            } else {
+                return item
+            }
+        })
+        setNewerTasks(checkTrueArray)
+        handleFetch(checkTrueArray)
     }
     const deleteTask = (index) => {
-        var newUpdated = newTasks.filter((element, ind)=>{
-            if (ind != index){
-                setNewTasks(newUpdated);
-                return(
-                    <div className="row justify-content-center align-items-center">
-                        <div key={ind} className="taskDiv d-flex justify-content-between align-items-center">
-                            <p className="toDoTask">{element}</p>
-                            <i className="fas fa-trash deleteIcon" onClick={()=>{deleteTask()}}></i>
-                        </div>
-                    </div>
-                )
-            }
-    })}
+        var newUpdated = newerTasks.filter((element, ind)=>{
+            return ind != index
+    });
+    setNewerTasks(newUpdated);
+    handleFetch(newUpdated)}
     return (
         <div className="mt-5 entireToDoList row justify-content-center align-items-center">
             <div className="taskDiv align-items-center">
                 <input type="text" id="inputTodo" value={userInput} placeholder="What needs to be done?" 
                 onChange={(e)=>{setUserInput(e.target.value)}} 
-                onKeyUp={(e)=>{if (e.key === "Enter"){addTasks(userInput);setUserInput("")}}} />
+                onKeyUp={(e)=>{if (e.key === "Enter"){handleClick();setUserInput("")}}} />
             </div>
-            {newTasks.map((arrayItem,index)=>{
+            {newerTasks.map((arrayItem,index)=>{
                 return (
-                    <div className="row justify-content-center align-items-center">
-                        <div key={index} className="taskDiv d-flex justify-content-between align-items-center">
-                            <p className="toDoTask">{arrayItem}</p>
-                            <i className="fas fa-trash" onClick={()=>{deleteTask()}}></i>
+                    <div key={index} className="row justify-content-center align-items-center">
+                        <div className="taskDiv d-flex align-items-center">
+                            <p className="me-auto toDoTask">{arrayItem.label}</p>
+                                <div className="form-check form-switch align-items-center d-flex">
+                                    <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onClick={()=>{checkTrue(arrayItem, index)}} />
+                                    <label className="form-check-label" htmlFor="flexSwitchCheckDefault"></label>
+                                </div>
+                            <i className="p-2 fas fa-trash" onClick={()=>{deleteTask(index)}}></i>
                         </div>
                     </div>
                 )
